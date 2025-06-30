@@ -11,4 +11,4 @@ STARLIGHT_COLLECTOR is an engaging Java-based arcade game where players control 
 - **State Management**: Features menu, playing, game over, and level-up states with smooth transitions.
 
 ## Purpose
-This project is designed as an educational tool to demonstrate Java programming concepts, including object-oriented design, MVC architecture, Swing for GUI, and basic file I/O. It serves as a fun, interactive example for learning game development, debugging, and asset integration in a structured environment.
+This project is designed as an educational tool to demonstrate Java programming concepts, including object-oriented design, MVC architecture, Swing for GUI, and basic file I/O. It serves as a fun, interactive example for learning game development, debugging, and asset integration in a structured environment .
