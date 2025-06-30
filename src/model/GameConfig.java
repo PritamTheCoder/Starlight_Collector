@@ -7,8 +7,8 @@ public final class GameConfig {
     public static final int HEIGHT = 600;
 
     // Basket dimensions
-    public static final int BASKET_WIDTH = 50;
-    public static final int BASKET_HEIGHT = 50;
+    public static final int BASKET_WIDTH = 100;
+    public static final int BASKET_HEIGHT = 100;
 
     // Collectible object size
     public static final int OBJECT_SIZE = 20;
