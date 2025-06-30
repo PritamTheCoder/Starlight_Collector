@@ -1,5 +1,13 @@
 package model;
 
-public class Meteor {
-    
+import java.util.Random;
+
+// Damaging object that reduces player lives
+public class Meteor extends GameObject {
+    private static final Random RAND = new Random();
+
+    public Meteor(int level) {
+        super(RAND.nextInt(GameConfig.WIDTH - GameConfig.OBJECT_SIZE), 0,
+                GameConfig.OBJECT_SIZE, 3 + level);
+    }
 }
