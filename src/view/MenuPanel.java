@@ -15,6 +15,7 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
     private final String[] options = {"Start", "High Scores", "Exit"};
     private final boolean[] isHovered;
     private int highScore;
+    private ImageIcon background;
 
     public MenuPanel(GameView gameView) {
         this.gameView = gameView;
@@ -27,6 +28,9 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
         for (int i = 0; i < options.length; i++) {
             buttons[i] = new Rectangle(300, 200 + i * 100, 200, 50);
         }
+
+        java.net.URL imgURL = getClass().getResource("/assets/images/bg1.png");
+        background = new ImageIcon(imgURL);
     }
 
     // Update high score display
@@ -40,6 +44,11 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
         super.paintComponent(g);
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
+
+        // Draw background image
+        if (background != null) {
+            g.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), null);
+        }
 
         // Draw title
         g.setColor(Color.WHITE);

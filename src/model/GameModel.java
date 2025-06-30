@@ -55,24 +55,13 @@ public class GameModel {
     }
 
     private ImageIcon loadImage(String path) {
-        File file = new File(path);
-        if (!file.exists()) {
-            System.err.println("Image file not found: " + path);
+        java.net.URL imgURL = getClass().getResource("/" + path);
+        if (imgURL == null) {
+            System.err.println("Image resource not found: " + path);
             return null;
         }
-        try {
-            ImageIcon icon = new ImageIcon(path);
-            if (icon.getImageLoadStatus() == java.awt.MediaTracker.COMPLETE) {
-                System.out.println("Loaded image: " + path);
-                return icon;
-            } else {
-                System.err.println("Failed to load image (incomplete): " + path);
-                return null;
-            }
-        } catch (Exception e) {
-            System.err.println("Failed to load image: " + path + ", " + e.getMessage());
-            return null;
-        }
+        System.out.println("Loaded image: " + path);
+        return new ImageIcon(imgURL);
     }
 
     private void loadSounds() {
@@ -95,17 +84,21 @@ public class GameModel {
     }
 
     private Clip loadClip(String path) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        File file = new File(path);
-        if (!file.exists()) {
-            System.err.println("Sound file not found: " + path);
-            return null;
+        try (InputStream audioSrc = getClass().getResourceAsStream("/" + path)) {
+            if (audioSrc == null) {
+                System.err.println("Sound resource not found: " + path);
+                return null;
+            }
+            // Add buffering for mark/reset support
+            try (InputStream bufferedIn = new BufferedInputStream(audioSrc)) {
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioIn);
+                audioIn.close();
+                System.out.println("Loaded sound: " + path);
+                return clip;
+            }
         }
-        AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioIn);
-        audioIn.close();
-        System.out.println("Loaded sound: " + path);
-        return clip;
     }
 
     private void playSound(Clip clip) {

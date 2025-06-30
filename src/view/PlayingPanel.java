@@ -48,28 +48,18 @@ public class PlayingPanel extends JPanel implements Runnable {
 
     private void loadBackground(int level) {
         String path = switch (level) {
-            case 1, 2, 3 -> "assets/images/bg1.png";
-            case 4, 5, 6 -> "assets/images/bg2.png";
-            default -> "assets/images/bg3.png";
+            case 1, 2, 3 -> "/assets/images/bg1.png";
+            case 4, 5, 6 -> "/assets/images/bg2.png";
+            default -> "/assets/images/bg3.png";
         };
-        File file = new File(path);
-        if (!file.exists()) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL == null) {
             System.err.println("Background image not found: " + path);
             background = null;
             return;
         }
-        try {
-            background = new ImageIcon(path);
-            if (background.getImageLoadStatus() == java.awt.MediaTracker.COMPLETE) {
-                System.out.println("Loaded background: " + path);
-            } else {
-                System.err.println("Failed to load background (incomplete): " + path);
-                background = null;
-            }
-        } catch (Exception e) {
-            System.err.println("Failed to load background: " + path + ", " + e.getMessage());
-            background = null;
-        }
+        background = new ImageIcon(imgURL);
+        System.out.println("Loaded background: " + path);
     }
 
     @Override
@@ -169,5 +159,15 @@ public class PlayingPanel extends JPanel implements Runnable {
 
     public GameModel getModel() {
         return model;
+    }
+
+    // Example implementation
+    public ImageIcon getBasketImage() {
+        java.net.URL imgURL = getClass().getResource("/assets/images/basket.png");
+        if (imgURL == null) {
+            System.err.println("Basket image not found!");
+            return null;
+        }
+        return new ImageIcon(imgURL);
     }
 }
