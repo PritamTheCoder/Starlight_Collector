@@ -13,8 +13,10 @@ public class Basket {
         this.y = y;
         this.width = GameConfig.BASKET_WIDTH;
         this.height = GameConfig.BASKET_HEIGHT;
-        this.speed = GameConfig.BASE_BASKET_SPEED;
+        this.speed = GameConfig.FASTER_BASKET_SPEED;
     }
+
+
 
     // Move basket left, constrained within screen bounds
     public void moveLeft() {

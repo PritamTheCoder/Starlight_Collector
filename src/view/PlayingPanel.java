@@ -4,12 +4,10 @@ import model.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
+import java.awt.event.KeyListener;
 
-// Gameplay panel handling rendering and game loop
-public class PlayingPanel extends JPanel implements Runnable {
+public class PlayingPanel extends JPanel implements Runnable, KeyListener {
     private final GameView gameView;
     private GameModel model;
     private Thread gameThread;
@@ -19,20 +17,8 @@ public class PlayingPanel extends JPanel implements Runnable {
         this.gameView = gameView;
         setPreferredSize(new Dimension(GameConfig.WIDTH, GameConfig.HEIGHT));
         setFocusable(true);
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (model == null) {
-                    System.err.println("Key input ignored: model is null");
-                    return;
-                }
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    model.moveBasketLeft();
-                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    model.moveBasketRight();
-                }
-            }
-        });
+        requestFocusInWindow(); // 👈 makes sure keyListener works
+        addKeyListener(this);   // 👈 ADD THIS
     }
 
     public void setModel(GameModel model) {
@@ -161,7 +147,6 @@ public class PlayingPanel extends JPanel implements Runnable {
         return model;
     }
 
-    // Example implementation
     public ImageIcon getBasketImage() {
         java.net.URL imgURL = getClass().getResource("/assets/images/basket.png");
         if (imgURL == null) {
@@ -170,4 +155,23 @@ public class PlayingPanel extends JPanel implements Runnable {
         }
         return new ImageIcon(imgURL);
     }
+
+    // 🎮 ADD KEYLISTENER METHODS HERE
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (model == null) return;
+
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT -> model.moveBasketLeft();
+            case KeyEvent.VK_RIGHT -> model.moveBasketRight();
+        }
+
+        repaint(); // optional: immediate redraw
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
 }
