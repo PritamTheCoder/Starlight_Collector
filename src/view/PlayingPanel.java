@@ -51,29 +51,31 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         if (model == null) {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
             g.setColor(Color.WHITE);
             g.drawString("No model set", 10, 30);
-            System.err.println("Model is null in PlayingPanel.paintComponent");
             return;
         }
 
+        // Draw background
         if (background != null && background.getImage() != null) {
             g.drawImage(background.getImage(), 0, 0, this);
         } else {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
-            System.err.println("Background image is null");
         }
 
+        // Draw score, level, lives
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 24));
         g.drawString("Score: " + model.getScore(), 10, 30);
         g.drawString("Level: " + model.getLevel(), 10, 60);
         g.drawString("Lives: " + model.getLives(), 10, 90);
 
+        // Draw basket
         ImageIcon basketImage = model.getBasketImage();
         if (basketImage != null && basketImage.getImage() != null) {
             g.drawImage(basketImage.getImage(), model.getBasket().getX(), model.getBasket().getY(),
@@ -82,21 +84,19 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
             g.setColor(Color.RED);
             g.fillRect(model.getBasket().getX(), model.getBasket().getY(),
                     GameConfig.BASKET_WIDTH, GameConfig.BASKET_HEIGHT);
-            System.err.println("Basket image is null");
         }
 
+        // Draw all falling objects (stars, meteors, etc.)
         for (GameObject obj : model.getObjects()) {
-            ImageIcon objImage = model.getImage(obj);
+            ImageIcon objImage = model.getImage(obj); // Image from GameModel
             if (objImage != null && objImage.getImage() != null) {
                 g.drawImage(objImage.getImage(), obj.getX(), obj.getY(),
                         GameConfig.OBJECT_SIZE, GameConfig.OBJECT_SIZE, this);
             } else {
                 g.setColor(Color.RED);
                 g.fillRect(obj.getX(), obj.getY(), GameConfig.OBJECT_SIZE, GameConfig.OBJECT_SIZE);
-                System.err.println("Object image is null for: " + obj.getClass().getSimpleName());
             }
         }
-        System.out.println("Rendered frame, objects: " + model.getObjects().size());
     }
 
     @Override
@@ -145,15 +145,6 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
 
     public GameModel getModel() {
         return model;
-    }
-
-    public ImageIcon getBasketImage() {
-        java.net.URL imgURL = getClass().getResource("/assets/images/basket.png");
-        if (imgURL == null) {
-            System.err.println("Basket image not found!");
-            return null;
-        }
-        return new ImageIcon(imgURL);
     }
 
     // 🎮 ADD KEYLISTENER METHODS HERE

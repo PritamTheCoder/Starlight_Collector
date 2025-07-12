@@ -4,8 +4,10 @@ import view.GameState;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
+import java.awt.Rectangle;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 // Manages game state and core logic
@@ -47,11 +49,11 @@ public class GameModel {
     private void loadImages() {
         basketImage = loadImage("assets/images/basket.png");
         starImage = loadImage("assets/images/star.png");
-        rareStar5Image = loadImage("assets/images/rare_star5.png");
-        rareStar10Image = loadImage("assets/images/rare_star10.png");
+        rareStar5Image = loadImage("assets/images/rare_star.png");
+        rareStar10Image = loadImage("assets/images/bonus_star.png");
         meteorImage = loadImage("assets/images/meteor.png");
-        fasterImage = loadImage("assets/images/faster.png");
-        magnetImage = loadImage("assets/images/magnet.png");
+        fasterImage = loadImage("assets/images/powerup_speed.png");
+        magnetImage = loadImage("assets/images/powerup_magnet.png");
     }
 
     private ImageIcon loadImage(String path) {
@@ -154,48 +156,49 @@ public class GameModel {
     }
 
     public void update() {
-        if (state != GameState.PLAYING) {
-            System.out.println("Game state: " + state);
-            return;
-        }
-
-        if (System.currentTimeMillis() - lastObjectTime > 1000 / level) {
-            spawnObject();
-            lastObjectTime = System.currentTimeMillis();
-            System.out.println("Spawned object, total objects: " + objects.size());
-        }
-
-        if (magnetActive && System.currentTimeMillis() - magnetStartTime > GameConfig.MAGNET_DURATION) {
-            magnetActive = false;
-        }
-
-        ArrayList<GameObject> toRemove = new ArrayList<>();
-        for (GameObject obj : objects) {
-            if (magnetActive && isCollectibleStar(obj)) {
-                applyMagnetEffect(obj);
-            }
-            obj.update();
-            if (obj.isOffScreen()) {
-                toRemove.add(obj);
-                if (!(obj instanceof Meteor)) {
-                    lives--;
-                    playSound(missSound);
-                    if (lives <= 0) {
-                        saveHighScore();
-                        state = GameState.GAME_OVER;
-                        playSound(gameOverSound);
-                        stopBackgroundMusic();
-                    }
-                }
-            } else if (obj.getBounds().intersects(basket.getBounds())) {
-                toRemove.add(obj);
-                handleCollision(obj);
-                playSound(catchSound);
-            }
-        }
-        objects.removeAll(toRemove);
+    if (state != GameState.PLAYING) {
+        return;
     }
 
+    // Spawn new objects based on level/timer
+    if (System.currentTimeMillis() - lastObjectTime > 1000 / level) {
+        spawnObject();
+        lastObjectTime = System.currentTimeMillis();
+    }
+
+    ArrayList<GameObject> toRemove = new ArrayList<>();
+
+    for (GameObject obj : objects) {
+        // Magnet effect
+        if (magnetActive && isCollectibleStar(obj)) {
+            applyMagnetEffect(obj);
+        }
+
+        obj.update(); // Update the object's position
+
+        // Remove if off screen
+        if (obj.isOffScreen()) {
+            toRemove.add(obj);
+            if (!(obj instanceof Meteor)) {
+                lives--;
+                playSound(missSound);
+                if (lives <= 0) {
+                    saveHighScore();
+                    state = GameState.GAME_OVER;
+                    playSound(gameOverSound);
+                    stopBackgroundMusic();
+                }
+            }
+        }
+        // Collision with basket
+        else if (obj.getBounds().intersects(basket.getBounds())) {
+            toRemove.add(obj);
+            handleCollision(obj); // Increase score, spawn new star, etc.
+            playSound(catchSound);
+        }
+    }
+    objects.removeAll(toRemove);
+}
     private boolean isCollectibleStar(GameObject obj) {
         return obj instanceof Star || obj instanceof RareStar5 || obj instanceof RareStar10;
     }
@@ -268,6 +271,28 @@ public class GameModel {
         }
     }
 
+    private void checkCollisions() {
+        Rectangle basketRect = new Rectangle(basket.getX(), basket.getY(), GameConfig.BASKET_WIDTH, GameConfig.BASKET_HEIGHT);
+        Iterator<GameObject> it = objects.iterator();
+        while (it.hasNext()) {
+            GameObject obj = it.next();
+            Rectangle objRect = new Rectangle(obj.getX(), obj.getY(), GameConfig.OBJECT_SIZE, GameConfig.OBJECT_SIZE);
+            if (basketRect.intersects(objRect)) {
+                if (obj instanceof Star) {
+                    score += ((Star) obj).getPoints();
+                    it.remove(); // Remove caught star
+                    spawnStar(); // Add a new star
+                }
+                // Add more logic for other object types if needed
+            }
+            // Remove stars that fall off the screen
+            if (obj.getY() > GameConfig.HEIGHT) {
+                it.remove();
+                spawnStar();
+            }
+        }
+    }
+
     public void setState(GameState state) {
         this.state = state;
         if (state == GameState.PLAYING) {
@@ -275,6 +300,13 @@ public class GameModel {
             startBackgroundMusic();
         } else {
             stopBackgroundMusic();
+        }
+    }
+
+    public void startLevel() {
+        objects.clear();
+        for (int i = 0; i < 5; i++) { // Start with 5 stars
+            objects.add(new Star(level));
         }
     }
 
@@ -299,4 +331,8 @@ public class GameModel {
     public ImageIcon getBasketImage() { return basketImage; }
     public void moveBasketLeft() { basket.moveLeft(); }
     public void moveBasketRight() { basket.moveRight(); }
+
+    public void spawnStar() {
+        objects.add(new Star(level));
+    }
 }
