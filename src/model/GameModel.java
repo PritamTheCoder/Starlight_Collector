@@ -312,8 +312,23 @@ public void setState(GameState state) {
 
     public void startLevel() {
         objects.clear();
-        for (int i = 0; i < 5; i++) { // Start with 5 stars
+        for (int i = 0; i < 3; i++) { // Start with 3 normal stars
             objects.add(new Star(level));
+        }
+        for (int i = 0; i < 1; i++) { // Start with 1 RareStar5
+            objects.add(new RareStar5(level));
+        }
+        for (int i = 0; i < 1; i++) { // Start with 1 RareStar10
+            objects.add(new RareStar10(level));
+        }
+        for (int i = 0; i < 1; i++) { // Start with 1 Magnet
+            objects.add(new Magnet(level));
+        }
+        for (int i = 0; i < 1; i++) { // Start with 1 Faster
+            objects.add(new Faster(level));
+        }
+        for (int i = 0; i < 1; i++) { // Start with 1 Meteor
+            objects.add(new Meteor(level));
         }
     }
 

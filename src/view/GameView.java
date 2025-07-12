@@ -13,6 +13,7 @@ public class GameView extends JPanel {
     private final PlayingPanel playingPanel;
     private final GameOverPanel gameOverPanel;
     private final LevelUpPanel levelUpPanel;
+    private controller.GameController gameController;  // Add this field
 
     public GameView() {
         cardLayout = new CardLayout();
@@ -32,8 +33,9 @@ public class GameView extends JPanel {
         add(levelUpPanel, GameState.LEVEL_UP.name());
     }
 
-    // Add this method to set GameController in MenuPanel
+    // Add this method to set GameController in MenuPanel and GameView
     public void setGameController(controller.GameController gameController) {
+        this.gameController = gameController;  // Save reference
         menuPanel.setGameController(gameController);
     }
 

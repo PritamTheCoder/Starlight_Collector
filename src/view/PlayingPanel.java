@@ -140,6 +140,7 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
             System.err.println("Cannot start game: model is null");
             return;
         }
+        requestFocus();  // Ensure focus for key events
         if (gameThread == null || !gameThread.isAlive()) {
             gameThread = new Thread(this);
             gameThread.start();
