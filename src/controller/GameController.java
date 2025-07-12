@@ -32,6 +32,8 @@ public class GameController {
         model.setState(GameState.PLAYING);
         view.switchState(GameState.PLAYING);
         updateView();
+        // Start the game loop thread after model state is set and PlayingPanel model updated
+        view.getPlayingPanel().startGame();
     }
 
     // Return to main menu

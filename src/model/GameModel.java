@@ -40,7 +40,8 @@ public class GameModel {
         level = 1;
         lives = 3;
         lastObjectTime = System.currentTimeMillis();
-        state = GameState.MENU;
+        // Remove resetting state here to avoid overwriting setState calls
+        // state = GameState.MENU;
         magnetActive = false;
         stopBackgroundMusic();
         loadHighScore();
@@ -157,6 +158,7 @@ public class GameModel {
 
     public void update() {
     if (state != GameState.PLAYING) {
+        System.out.println("GameModel update skipped, state: " + state);
         return;
     }
 
@@ -174,7 +176,9 @@ public class GameModel {
             applyMagnetEffect(obj);
         }
 
+        System.out.println("Updating object at position: (" + obj.getX() + ", " + obj.getY() + ") with speed " + obj.getSpeed());
         obj.update(); // Update the object's position
+        System.out.println("Updated object position to: (" + obj.getX() + ", " + obj.getY() + ")");
 
         // Remove if off screen
         if (obj.isOffScreen()) {
@@ -198,6 +202,8 @@ public class GameModel {
         }
     }
     objects.removeAll(toRemove);
+
+    checkCollisions();  // Add this call to handle star removal and spawning
 }
     private boolean isCollectibleStar(GameObject obj) {
         return obj instanceof Star || obj instanceof RareStar5 || obj instanceof RareStar10;
@@ -293,10 +299,11 @@ public class GameModel {
         }
     }
 
-    public void setState(GameState state) {
+public void setState(GameState state) {
         this.state = state;
         if (state == GameState.PLAYING) {
             initGame();
+            startLevel();
             startBackgroundMusic();
         } else {
             stopBackgroundMusic();

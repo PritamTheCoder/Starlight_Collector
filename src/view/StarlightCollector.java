@@ -1,3 +1,4 @@
+
 package view;
 
 import controller.GameController;
@@ -13,7 +14,10 @@ public class StarlightCollector {
             // Initialize MVC components
             GameModel model = new GameModel();
             GameView view = new GameView();
-            new GameController(model, view);
+            GameController controller = new GameController(model, view);
+
+            // Set GameController in GameView (which sets it in MenuPanel)
+            view.setGameController(controller);
 
             // Set up the game window
             JFrame frame = new JFrame("Starlight Collector");

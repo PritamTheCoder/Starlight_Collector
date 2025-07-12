@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 // Main view panel managing different game screens
+
 public class GameView extends JPanel {
     private final CardLayout cardLayout;
     private final MenuPanel menuPanel;
@@ -29,6 +30,11 @@ public class GameView extends JPanel {
         add(playingPanel, GameState.PLAYING.name());
         add(gameOverPanel, GameState.GAME_OVER.name());
         add(levelUpPanel, GameState.LEVEL_UP.name());
+    }
+
+    // Add this method to set GameController in MenuPanel
+    public void setGameController(controller.GameController gameController) {
+        menuPanel.setGameController(gameController);
     }
 
     // Switch to a different game state

@@ -1,5 +1,6 @@
 package view;
 
+import controller.GameController;
 import model.GameConfig;
 
 import javax.swing.*;
@@ -17,6 +18,10 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
     private int highScore;
     private ImageIcon background;
 
+    // Add GameController reference
+    private GameController gameController;
+
+    // Modify constructor to accept GameController
     public MenuPanel(GameView gameView) {
         this.gameView = gameView;
         setPreferredSize(new Dimension(GameConfig.WIDTH, GameConfig.HEIGHT));
@@ -31,6 +36,11 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
 
         java.net.URL imgURL = getClass().getResource("/assets/images/bg1.png");
         background = new ImageIcon(imgURL);
+    }
+
+    // Add setter for GameController
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
     }
 
     // Update high score display
@@ -89,7 +99,11 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
     public void mouseClicked(MouseEvent e) {
         Point p = e.getPoint();
         if (buttons[0].contains(p)) {
-            gameView.switchState(GameState.PLAYING);
+            if (gameController != null) {
+                gameController.startGame();  // Use GameController to start game properly
+            } else {
+                System.err.println("GameController not set in MenuPanel");
+            }
         } else if (buttons[1].contains(p)) {
             JOptionPane.showMessageDialog(this, "High Score: " + highScore);
         } else if (buttons[2].contains(p)) {

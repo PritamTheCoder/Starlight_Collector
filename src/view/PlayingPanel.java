@@ -27,7 +27,7 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
             return;
         }
         this.model = model;
-        System.out.println("Set model in PlayingPanel, level: " + model.getLevel());
+        System.out.println("Set model in PlayingPanel, level: " + model.getLevel() + ", state: " + model.getState());
         loadBackground(model.getLevel());
         repaint();
     }
@@ -101,14 +101,17 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void run() {
+        System.out.println("PlayingPanel.run() started, initial model state: " + (model != null ? model.getState() : "null"));
         long lastTime = System.nanoTime();
         double nsPerFrame = 1_000_000_000.0 / 60.0; // 60 FPS
         double delta = 0;
         while (model != null && (model.getState() == GameState.PLAYING || model.getState() == GameState.LEVEL_UP)) {
+            System.out.println("PlayingPanel.run() loop, model state: " + model.getState());
             long now = System.nanoTime();
             delta += (now - lastTime) / nsPerFrame;
             lastTime = now;
             if (delta >= 1) {
+                System.out.println("Game loop tick - model state: " + model.getState());
                 if (model.getState() == GameState.PLAYING) {
                     model.update();
                 }
@@ -129,6 +132,7 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
                 System.err.println("Game loop interrupted: " + e.getMessage());
             }
         }
+        System.out.println("PlayingPanel.run() loop exited");
     }
 
     public void startGame() {
