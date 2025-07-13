@@ -11,7 +11,7 @@ public class GameView extends JPanel {
     private final CardLayout cardLayout;
     private final MenuPanel menuPanel;
     private final PlayingPanel playingPanel;
-    private final GameOverPanel gameOverPanel;
+    private GameOverPanel gameOverPanel;
     private final LevelUpPanel levelUpPanel;
     private controller.GameController gameController;  // Add this field
 
@@ -23,7 +23,7 @@ public class GameView extends JPanel {
         // Initialize panels
         menuPanel = new MenuPanel(this);
         playingPanel = new PlayingPanel(this);
-        gameOverPanel = new GameOverPanel(this);
+        gameOverPanel = new GameOverPanel(this, 0, 0);
         levelUpPanel = new LevelUpPanel(this);
 
         // Add panels to card layout
@@ -48,7 +48,24 @@ public class GameView extends JPanel {
                 playingPanel.startGame();
             }
             case MENU -> menuPanel.requestFocusInWindow();
-            case GAME_OVER -> gameOverPanel.requestFocusInWindow();
+           case GAME_OVER -> {
+                // Get score and high score
+                int currentScore = playingPanel.getScore();
+                int highScore = gameController.getHighScore();
+
+                // Remove old panel if it exists
+                if (gameOverPanel != null) {
+                    remove(gameOverPanel);
+                }
+
+                // Create new GameOverPanel with updated score
+                gameOverPanel = new GameOverPanel(this, currentScore, highScore);
+                add(gameOverPanel, GameState.GAME_OVER.name());
+
+                // Show and focus
+                gameOverPanel.requestFocusInWindow();
+                cardLayout.show(this, GameState.GAME_OVER.name());
+            }
             case LEVEL_UP -> levelUpPanel.requestFocusInWindow();
         }
     }

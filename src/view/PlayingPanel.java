@@ -170,4 +170,9 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {}
+
+    public int getScore() {
+    return model != null ? model.getScore() : 0;
 }
+}
+

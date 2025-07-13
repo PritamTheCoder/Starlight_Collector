@@ -15,6 +15,11 @@ public class GameController {
         updateView();
     }
 
+    // Add this method to provide high score
+    public int getHighScore() {
+        // Replace with your actual high score logic or field
+        return 0;
+    }
     // Update view with model data
     public void updateView() {
         if (model == null) {
