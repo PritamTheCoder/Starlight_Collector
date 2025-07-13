@@ -10,7 +10,6 @@ import java.awt.event.MouseListener;
 // Game over screen panel
 public class GameOverPanel extends JPanel implements MouseListener {
     private final GameView gameView;
-    private final Rectangle retryButton = new Rectangle(300, 300, 200, 50);
     private final Rectangle menuButton = new Rectangle(300, 400, 200, 50);
 
     public GameOverPanel(GameView gameView) {
@@ -33,7 +32,6 @@ public class GameOverPanel extends JPanel implements MouseListener {
 
         // Draw buttons
         g.setFont(new Font("Arial", Font.BOLD, 24));
-        drawButton(g, retryButton, "Retry");
         drawButton(g, menuButton, "Main Menu");
     }
 
@@ -52,9 +50,7 @@ public class GameOverPanel extends JPanel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         Point p = e.getPoint();
-        if (retryButton.contains(p)) {
-            gameView.switchState(GameState.PLAYING);
-        } else if (menuButton.contains(p)) {
+        if (menuButton.contains(p)) {
             gameView.switchState(GameState.MENU);
         }
     }
