@@ -264,6 +264,14 @@ public class GameModel {
             level++;
             state = GameState.LEVEL_UP;
             stopBackgroundMusic();
+            // Schedule transition back to PLAYING after 2 seconds
+            new java.util.Timer().schedule(new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    state = GameState.PLAYING;
+                    startBackgroundMusic();
+                }
+            }, 1000); // 1000 ms of delay
         }
     }
 
