@@ -181,19 +181,19 @@ public class GameModel {
         System.out.println("Updated object position to: (" + obj.getX() + ", " + obj.getY() + ")");
 
         // Remove if off screen
-        if (obj.isOffScreen()) {
-            toRemove.add(obj);
-            if (!(obj instanceof Meteor)) {
-                lives--;
-                playSound(missSound);
-                if (lives <= 0) {
-                    saveHighScore();
-                    state = GameState.GAME_OVER;
-                    playSound(gameOverSound);
-                    stopBackgroundMusic();
-                }
-            }
+if (obj.isOffScreen()) {
+    toRemove.add(obj);
+    if (obj instanceof Star) {
+        lives--;
+        playSound(missSound);
+        if (lives <= 0) {
+            saveHighScore();
+            state = GameState.GAME_OVER;
+            playSound(gameOverSound);
+            stopBackgroundMusic();
         }
+    }
+}
         // Collision with basket
         else if (obj.getBounds().intersects(basket.getBounds())) {
             toRemove.add(obj);
