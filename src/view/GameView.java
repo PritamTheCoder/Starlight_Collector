@@ -37,6 +37,9 @@ public class GameView extends JPanel {
     public void setGameController(controller.GameController gameController) {
         this.gameController = gameController;  // Save reference
         menuPanel.setGameController(gameController);
+        
+        // ADD THIS LINE - Set the GameModel in MenuPanel so it can play sounds
+        menuPanel.setGameModel(gameController.getGameModel());
     }
 
     // Switch to a different game state

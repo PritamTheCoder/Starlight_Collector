@@ -15,10 +15,16 @@ public class GameController {
         updateView();
     }
 
-    // Add this method to provide high score
+    // method to provide high score
     public int getHighScore() {
         return model.getHighScore();
     }
+
+    // method so GameView can get the GameModel for sounds
+    public GameModel getGameModel() {
+        return model;
+    }
+
     // Update view with model data
     public void updateView() {
         if (model == null) {

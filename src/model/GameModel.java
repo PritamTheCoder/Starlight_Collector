@@ -20,17 +20,17 @@ public class GameModel {
     private int highScore;
     private GameState state;
     private ImageIcon basketImage, starImage, rareStar5Image, rareStar10Image, meteorImage, fasterImage, magnetImage;
-    private Clip catchSound, rareStarSound, powerupSound, bombSound, missSound, gameOverSound, backgroundMusic;
+    private Clip catchSound, rareStarSound, powerupSound, bombSound, missSound, gameOverSound, backgroundMusic, clickSound;
     private boolean magnetActive;
     private static final Random RAND = new Random();
 
     public GameModel() {
-    objects = new ArrayList<>();
-    initGame();
-    loadImages();
-    loadSounds();
-    setState(GameState.MENU); 
-}
+        objects = new ArrayList<>();
+        initGame();
+        loadImages();
+        loadSounds();
+        setState(GameState.MENU); 
+    }
 
     private void initGame() {
         basket = new Basket(GameConfig.WIDTH / 2, GameConfig.HEIGHT - GameConfig.BASKET_HEIGHT - 20);
@@ -72,6 +72,7 @@ public class GameModel {
             missSound = loadClip("assets/sound/miss.wav");
             gameOverSound = loadClip("assets/sound/complete.wav");
             backgroundMusic = loadClip("assets/sound/game_bg_music.wav");
+            clickSound = loadClip("assets/sound/click.wav"); // 
 
             if (backgroundMusic != null) {
                 FloatControl gainControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
@@ -85,6 +86,7 @@ public class GameModel {
             missSound = null;
             gameOverSound = null;
             backgroundMusic = null;
+            clickSound = null;
             System.err.println("Failed to load sounds: " + e.getMessage());
         }
     }
@@ -109,6 +111,10 @@ public class GameModel {
             clip.setFramePosition(0);
             clip.start();
         }
+    }
+
+    public void playClickSound() {
+        playSound(clickSound); // will call this in button events
     }
 
     private void startBackgroundMusic() {

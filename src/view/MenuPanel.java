@@ -2,6 +2,8 @@ package view;
 
 import controller.GameController;
 import model.GameConfig;
+import model.GameModel;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,8 +20,10 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
     private int highScore;
     private ImageIcon background;
 
-    // Add GameController reference
+
+    // Add GameController and GameModel references
     private GameController gameController;
+    private GameModel gameModel;  // <--- ADD THIS
 
     // Modify constructor to accept GameController
     public MenuPanel(GameView gameView) {
@@ -41,6 +45,11 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
     // Add setter for GameController
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
+    }
+
+    // Add setter for GameModel
+    public void setGameModel(GameModel gameModel) {
+        this.gameModel = gameModel;
     }
 
     // Update high score display
@@ -98,6 +107,12 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
     @Override
     public void mouseClicked(MouseEvent e) {
         Point p = e.getPoint();
+        
+        // Play click sound first
+        if (gameModel != null) {
+            gameModel.playClickSound();
+        }
+
         if (buttons[0].contains(p)) {
             if (gameController != null) {
                 gameController.startGame();  // Use GameController to start game properly
