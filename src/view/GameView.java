@@ -38,7 +38,7 @@ public class GameView extends JPanel {
         this.gameController = gameController;  // Save reference
         menuPanel.setGameController(gameController);
         
-        // ADD THIS LINE - Set the GameModel in MenuPanel so it can play sounds
+        // Set the GameModel in MenuPanel so it can play sounds
         menuPanel.setGameModel(gameController.getGameModel());
     }
 
@@ -50,7 +50,10 @@ public class GameView extends JPanel {
                 playingPanel.requestFocusInWindow();
                 playingPanel.startGame();
             }
-            case MENU -> menuPanel.requestFocusInWindow();
+            case MENU -> {
+                menuPanel.requestFocusInWindow();
+                menuPanel.updateHighScoreFromModel(); // updates highscore from GameModel
+            }
            case GAME_OVER -> {
                 // Get score and high score
                 int currentScore = playingPanel.getScore();

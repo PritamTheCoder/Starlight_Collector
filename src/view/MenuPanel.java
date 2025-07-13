@@ -58,6 +58,12 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
         repaint();
     }
 
+    public void updateHighScoreFromModel() {
+    if (gameModel != null) {
+        this.highScore = gameModel.getHighScore();
+        repaint();
+    }
+}
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
