@@ -11,21 +11,21 @@ public final class GameConfig {
     public static final int BASKET_HEIGHT = 100;
 
     // Collectible object size
-    public static final int OBJECT_SIZE = 20;
+    public static final int OBJECT_SIZE = 50;
 
     // Scoring constants
-    public static final int STAR_POINTS = 10;
-    public static final int RARE_STAR5_POINTS = 50;
-    public static final int RARE_STAR10_POINTS = 100;
+    public static final int STAR_POINTS = 1;
+    public static final int RARE_STAR5_POINTS = 5;
+    public static final int RARE_STAR10_POINTS = 10;
     public static final int LEVEL_THRESHOLD = 50;
 
     // Basket movement speeds
-    public static final int BASE_BASKET_SPEED = 5;
-    public static final int FASTER_BASKET_SPEED = 8;
+    public static final int BASE_BASKET_SPEED = 7;
+    public static final int FASTER_BASKET_SPEED = 10;
 
     // Power-up constants
-    public static final int MAGNET_RANGE = 100;
-    public static final long MAGNET_DURATION = 5000; // Duration in milliseconds
+    public static final int MAGNET_RANGE = 10;
+    public static final long MAGNET_DURATION = 500; // Duration in milliseconds
 
     // Prevent instantiation
     private GameConfig() {}
