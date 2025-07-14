@@ -60,7 +60,7 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
             return;
         }
 
-        // Draw background
+        // Draw background image
         if (background != null && background.getImage() != null) {
             g.drawImage(background.getImage(), 0, 0, this);
         } else {
