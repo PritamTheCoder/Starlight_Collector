@@ -219,6 +219,7 @@ public class GameModel {
         else objects.add(new Star(level));
     }
 
+    // Sound logic
     private void handleCollision(GameObject obj) {
         if (obj instanceof Star star) {
             score += star.getPoints();
@@ -264,7 +265,7 @@ public class GameModel {
             level++;
             state = GameState.LEVEL_UP;
             stopBackgroundMusic();
-            // Schedule transition back to PLAYING after 2 seconds
+            // Schedule transition back to PLAYING after 1 seconds
             new java.util.Timer().schedule(new java.util.TimerTask() {
                 @Override
                 public void run() {
