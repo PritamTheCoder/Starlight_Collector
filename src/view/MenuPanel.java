@@ -13,7 +13,6 @@ import java.awt.event.MouseMotionListener;
 
 // Main menu screen panel
 public class MenuPanel extends JPanel implements MouseListener, MouseMotionListener {
-    private final GameView gameView;
     private final Rectangle[] buttons;
     private final String[] options = {"Start", "High Scores", "Exit"};
     private final boolean[] isHovered;
@@ -21,13 +20,12 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
     private ImageIcon background;
 
 
-    // Add GameController and GameModel references
+    // Adding GameController and GameModel references
     private GameController gameController;
-    private GameModel gameModel;  // <--- ADD THIS
+    private GameModel gameModel; 
 
-    // Modify constructor to accept GameController
+    // Modifying constructor to accept GameController
     public MenuPanel(GameView gameView) {
-        this.gameView = gameView;
         setPreferredSize(new Dimension(GameConfig.WIDTH, GameConfig.HEIGHT));
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -42,12 +40,12 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
         background = new ImageIcon(imgURL);
     }
 
-    // Add setter for GameController
+    // Adding setter for GameController
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
     }
 
-    // Add setter for GameModel
+    // Adding setter for GameModel
     public void setGameModel(GameModel gameModel) {
         this.gameModel = gameModel;
     }
@@ -121,7 +119,7 @@ public class MenuPanel extends JPanel implements MouseListener, MouseMotionListe
 
         if (buttons[0].contains(p)) {
             if (gameController != null) {
-                gameController.startGame();  // Use GameController to start game properly
+                gameController.startGame(); 
             } else {
                 System.err.println("GameController not set in MenuPanel");
             }

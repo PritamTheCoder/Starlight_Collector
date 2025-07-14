@@ -17,8 +17,8 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
         this.gameView = gameView;
         setPreferredSize(new Dimension(GameConfig.WIDTH, GameConfig.HEIGHT));
         setFocusable(true);
-        requestFocusInWindow(); // 👈 makes sure keyListener works
-        addKeyListener(this);   // 👈 ADD THIS
+        requestFocusInWindow(); 
+        addKeyListener(this);  
     }
 
     public void setModel(GameModel model) {
@@ -152,7 +152,7 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
         return model;
     }
 
-    // 🎮 ADD KEYLISTENER METHODS HERE
+    //KEYLISTENER METHODS
     @Override
     public void keyPressed(KeyEvent e) {
         if (model == null) return;
@@ -175,4 +175,3 @@ public class PlayingPanel extends JPanel implements Runnable, KeyListener {
     return model != null ? model.getScore() : 0;
 }
 }
-
