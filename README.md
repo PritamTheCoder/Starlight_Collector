@@ -14,6 +14,12 @@ The player navigates a basket to collect falling stars while avoiding meteors. A
 
 ---
 
+## Demo Video
+
+https://github.com/user-attachments/assets/be583947-960b-4c3b-9574-be93dc4ae1d7
+
+---
+
 ## Features
 
 * **Core Gameplay:** Player moves the basket horizontally using arrow keys to collect stars and avoid meteors.
