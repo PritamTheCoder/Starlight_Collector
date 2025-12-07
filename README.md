@@ -5,7 +5,7 @@
 ## Overview
 
 **Team Lead:** Pritam Thapa
-**Co-Developers:** Ayush Shrestha, Roshika Rai
+**Co-Developers:** Ayush Shrestha, Roshika Rai, Omkar Ghimire
 **Repository:** [Starlight_Collector](https://github.com/PritamTheCoder/Starlight_Collector.git)
 
 Starlight Collector is an interactive desktop game developed in Java using the Swing GUI framework. The project was created as an academic exercise to explore structured game development, real-time rendering, input handling, and the application of MVC architecture in a manageable but meaningful environment.
